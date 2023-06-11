@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>FishbowlInventory</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Api\Integrations\" />
+    <Folder Include="Api\LocationGroups\" />
+    <Folder Include="Api\ManufactureOrders\" />
+    <Folder Include="Api\Memos\" />
+    <Folder Include="Api\Parts\" />
+    <Folder Include="Api\PurchaseOrders\" />
+    <Folder Include="Api\UnitsOfMeasure\" />
+    <Folder Include="Api\Users\" />
+    <Folder Include="Api\Vendors\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Text.Json" Version="7.0.2" />
+    <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageId>FishbowlInventory.RestApi</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Josh Kirkpatrick</Authors>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://github.com/Kirkpajl/FishbowlInventory.RestApi</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Kirkpajl/FishbowlInventory.RestApi</PackageProjectUrl>
+    <PackageTags>Fishbowl, Inventory</PackageTags>
+    <Description>A C#/.net client library to interact with the Fishbowl Inventory REST API. The client does not fully implement all the API features (just yet) as it is following the needs of another project.</Description>
+  </PropertyGroup>
+
+</Project>
