@@ -6,8 +6,7 @@ on:
     - 'v*'
 
 env:
-  PROJECT_NAME: 'FishbowlInventory.RestApi.csproj'
-  PROJECT_DIR: ./source
+  PROJECT_PATH: './source/FishbowlInventory.RestApi.csproj'  
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
   NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
 
@@ -25,12 +24,10 @@ jobs:
           dotnet-version: '6.x'
 
       - name: 'Restore packages'
-        run: dotnet restore ${{ env.PROJECT_NAME }}
-        working-directory: ${{ env.PROJECT_DIR }}
+        run: dotnet restore ${{ env.PROJECT_PATH }}
 
       - name: 'Build project'
-        run: dotnet build ${{ env.PROJECT_NAME }} --no-restore --configuration Release
-        working-directory: ${{ env.PROJECT_DIR }}
+        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
       - name: 'Get version'
         id: version
