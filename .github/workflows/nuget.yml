@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_NAME: 'FishbowlInventory.RestApi.csproj'
-  PROJECT_DIR: 'source'
+  PROJECT_DIR: ./source
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
   NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
 
