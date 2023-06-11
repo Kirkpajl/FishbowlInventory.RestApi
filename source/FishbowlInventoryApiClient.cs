@@ -46,8 +46,6 @@ namespace FishbowlInventory
             {
                 BaseAddress = new Uri(baseAddress)
             };
-            //_httpClient.DefaultRequestHeaders.Clear();
-            //_httpClient.DefaultRequestHeaders.ConnectionClose = true;
 
             // Initialize the global JSON serialization options
             _jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
@@ -521,7 +519,7 @@ namespace FishbowlInventory
             string requestUri = QueryHelpers.AddQueryString("/api/location-groups", queryParameters);
 
             // Process the request
-            return GetAsync<PagedResultSet<LocationGroup>>(requestUri, cancellationToken);  //SearchLocationGroupResponse
+            return GetAsync<PagedResultSet<LocationGroup>>(requestUri, cancellationToken);
         }
 
         #endregion Location Groups
@@ -725,10 +723,6 @@ namespace FishbowlInventory
         #endregion Memos
 
         #region Parts
-
-        //private const string PART_IMPORT_NAME = "ImportPart";
-        //private const string PART_AVG_COST_IMPORT_NAME = "ImportPartCost";
-        //private const string PART_STD_COST_IMPORT_NAME = "ImportPartStdCost";
 
         private const string PART_SELECT_QUERY =
             @"SELECT
@@ -1020,93 +1014,7 @@ namespace FishbowlInventory
             INNER JOIN shipterms AS sterm ON sterm.id = po.shipTermsId
             INNER JOIN potype AS type ON type.id = po.typeId
             INNER JOIN vendor ON vendor.id = po.vendorId";
-        /*private const string PURCHASEORDER_SELECT_QUERY =
-            @"SELECT
-            po.id AS Id,
-            po.num AS number,
-            po.statusId,
-            stat.name AS status,
-            po.qbClassId AS classId,
-            qb.name AS className,
-            po.carrierId,
-            carrier.name AS carrierName,
-            po.fobPointId AS FobPointId,
-            fp.name AS fobPointName,
-            po.paymentTermsId,
-            pterm.name AS paymentTermsName,
-            po.shipTermsId,
-            sterm.name AS shipTermsName,
-            po.typeId,
-            type.name AS type,
-            po.vendorId,
-            vendor.name AS vendorName,
-            po.vendorContact,
-            po.vendorSO AS vendorSoNumber,
-            po.customerSO AS customerSoNumber,
-            po.buyerId,
-            po.buyer AS buyerUserName,
-            buyer.firstName AS buyerFirstName,
-            buyer.lastName AS buyerLastName,
-            po.deliverTo AS deliverTo,
-            po.revisionNum AS revisionNumber,
-            po.dateLastModified,
-            po.dateIssued,
-            po.dateCreated,
-            po.username AS createdByUsername,
-            po.dateConfirmed,
-            po.dateRevision,
-            po.dateFirstShip AS dateScheduled,
-            po.dateCompleted,
-            po.taxRateId,
-            po.taxRateName,
-            po.totalTax,
-            po.totalIncludesTax,
-            po.locationGroupId,
-            loc.name AS locationGroupName,
-            po.note,
-            po.url,
-            po.currencyId,
-            po.currencyRate,
-            curr.name AS currencyName,
-            po.email,
-            po.phone,
-
-            po.shipToName,
-            po.shipToAddress AS shipToStreetAddress,
-            po.shipToCity,
-            sstate.name AS shipToState,
-            po.shipToZip,
-            sctry.name AS shipToCountry,
-
-            po.remitToName,
-            po.remitAddress AS remitToStreetAddress,
-            po.remitCity AS remitToCity,
-            rstate.name AS remitToState,
-            po.remitZip,
-            rctry.name AS remitToCountry,
-
-            po.carrierServiceId,
-            carsrv.name AS carrierServiceName            
-                
-            FROM po
-
-            INNER JOIN sysuser AS buyer ON buyer.id = po.buyerId
-            INNER JOIN carrier ON carrier.id = po.carrierId
-            LEFT JOIN carrierservice AS carsrv ON carsrv.id = po.carrierServiceId
-            LEFT JOIN currency AS curr ON curr.id = po.currencyId
-            INNER JOIN fobpoint AS fp ON fp.id = po.fobPointId
-            INNER JOIN locationgroup AS loc ON loc.id = po.locationGroupId
-            INNER JOIN paymentterms AS pterm ON pterm.id = po.paymentTermsId
-            LEFT JOIN qbclass AS qb ON qb.id = po.qbClassId
-            LEFT JOIN countryconst AS rctry ON rctry.id = po.remitCountryId
-            LEFT JOIN stateconst AS rstate ON rstate.id = po.remitStateId
-            LEFT JOIN countryconst AS sctry ON sctry.id = po.shipToCountryId
-            LEFT JOIN stateconst AS sstate ON sstate.id = po.shipToStateId
-            INNER JOIN postatus AS stat ON stat.id = po.statusId
-            INNER JOIN shipterms AS sterm ON sterm.id = po.shipTermsId
-            INNER JOIN potype AS type ON type.id = po.typeId
-            INNER JOIN vendor ON vendor.id = po.vendorId";*/
-
+        
 
 
         /// <summary>
@@ -1124,15 +1032,6 @@ namespace FishbowlInventory
             // Parse the rows into PurchaseOrder/PurchaseOrderItem objects
             return ToPurchaseOrders(purchaseOrdersTable);
         }
-
-        /*public Task<PurchaseOrder[]> GetPurchaseOrdersAsync(CancellationToken cancellationToken = default)
-        {
-            // Build the MySQL SELECT query
-            string sqlQuery = $"{PURCHASEORDER_SELECT_QUERY} ORDER BY po.num";
-
-            // Execute the SELECT query and cast to object collection
-            return ExecuteQueryAsync<PurchaseOrder>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
-        }*/
 
         /// <summary>
         /// Searches for purchase orders.
@@ -1196,7 +1095,7 @@ namespace FishbowlInventory
             string requestUri = QueryHelpers.AddQueryString("/api/purchase-orders", queryParameters);
 
             // Process the request
-            return GetAsync<PagedResultSet<PurchaseOrder>>(requestUri, cancellationToken);  //SearchPurchaseOrderResponse
+            return GetAsync<PagedResultSet<PurchaseOrder>>(requestUri, cancellationToken);
         }
 
         /// <summary>
@@ -1215,8 +1114,6 @@ namespace FishbowlInventory
             // Parse the rows into PurchaseOrder/PurchaseOrderItem objects
             return ToPurchaseOrders(purchaseOrdersTable).FirstOrDefault();
         }
-        /*public Task<PurchaseOrder> GetPurchaseOrderAsync(int id, CancellationToken cancellationToken = default)
-            => GetAsync<PurchaseOrder>($"/api/purchase-orders/{id}", cancellationToken);*/
 
 
 
@@ -1307,16 +1204,10 @@ namespace FishbowlInventory
         /// <returns></returns>
         public async Task<PurchaseOrder> CreatePurchaseOrderAsync(PurchaseOrder purchaseOrder, CancellationToken cancellationToken = default)
         {
-            //string purchaseOrderJson = JsonSerializer.Serialize(purchaseOrder);
-            //return PostAsync<PurchaseOrder, PurchaseOrder>("/api/purchase-orders", purchaseOrder, cancellationToken);
-
-
-
             // Ensure that the required fields have values
             if (purchaseOrder.Status == 0) purchaseOrder.Status = PurchaseOrderStatus.Historical;
 
             if (string.IsNullOrWhiteSpace(purchaseOrder.Vendor.Name)) purchaseOrder.Vendor.Name = "[UNIDENTIFIED VENDOR]";
-            //if (string.IsNullOrWhiteSpace(purchaseOrder.VendorContactName)) purchaseOrder.VendorContactName = "[VENDOR CONTACT NAME]";
 
             if (string.IsNullOrWhiteSpace(purchaseOrder.RemitToAddress.Name)) purchaseOrder.RemitToAddress.Name = "[REMIT TO NAME]";
             if (string.IsNullOrWhiteSpace(purchaseOrder.RemitToAddress.StreetAddress)) purchaseOrder.RemitToAddress.StreetAddress = "[REMIT TO ADDRESS]";
@@ -1334,16 +1225,9 @@ namespace FishbowlInventory
             if (string.IsNullOrWhiteSpace(purchaseOrder.ShipToAddress.Country)) purchaseOrder.ShipToAddress.Country = "USA";
 
             if (string.IsNullOrWhiteSpace(purchaseOrder.Carrier.Name)) purchaseOrder.Carrier.Name = "Will Call";
-            //if (string.IsNullOrWhiteSpace(purchaseOrder.CarrierServiceName)) purchaseOrder.CarrierServiceName = "Ground";
-
-            //if (string.IsNullOrWhiteSpace(purchaseOrder.ShippingTermsName)) purchaseOrder.ShippingTermsName = "Prepaid & Billed";
-            //if (string.IsNullOrWhiteSpace(purchaseOrder.PaymentTermsName)) purchaseOrder.PaymentTermsName = "COD";
 
             // Compile the CSV rows for the specified Purchase Order objects
             string[] purchaseOrderLines = ToCsv(purchaseOrder);
-
-            //Debug.WriteLine($"Purchase Order #{purchaseOrder.Number}");
-            //foreach (string line in purchaseOrderLines) Debug.WriteLine(line);
 
             // Attempt to import the CSV rows into Fishbowl
             await ImportAsync(PURCHASEORDER_IMPORT_NAME, purchaseOrderLines, cancellationToken);
@@ -1551,10 +1435,6 @@ namespace FishbowlInventory
                 item.UnitOfMeasure.Id = row.Field<int>("UnitOfMeasureId");
                 item.UnitOfMeasure.Abbreviation = row.Field<string>("UOM");
 
-                //Repair
-                //CostToBeDetermined
-                //StatusName
-
                 // Add the item to the collection
                 items.Add(item);
             }
@@ -1639,14 +1519,12 @@ namespace FishbowlInventory
         /// <returns></returns>
         private static string ToCsv(PurchaseOrderItem purchaseOrderItem)
         {
-            //"Flag","POItemTypeID","PartNumber","VendorPartNumber","PartQuantity","FulfilledQuantity","PickedQuantity","UOM","PartPrice","FulfillmentDate","LastFulfillmentDate","RevisionLevel","Note","QuickBooksClassName","CustomerJob"
-
             // Build the CSV line for the PO Item
             var csv = new CsvBuilder();
 
             csv.Add("Item");  // "Flag"
-            csv.Add(purchaseOrderItem.Type?.Id.ToString());  // "POItemTypeID"  // csv.Add(purchaseOrderItem.Type.GetDisplayName());
-            csv.Add(purchaseOrderItem.Part?.Number);  // "PartNumber"  // csv.Add(purchaseOrderItem.PartNumber);
+            csv.Add(purchaseOrderItem.Type?.Id.ToString());  // "POItemTypeID"
+            csv.Add(purchaseOrderItem.Part?.Number);  // "PartNumber"
             csv.Add(purchaseOrderItem.VendorPartNumber);  // "VendorPartNumber"
             csv.Add(purchaseOrderItem.Quantity.ToString());  // "PartQuantity"
             csv.Add(purchaseOrderItem.QuantityFulfilled.ToString());  // "FulfilledQuantity"
@@ -1657,8 +1535,8 @@ namespace FishbowlInventory
             csv.Add(purchaseOrderItem.DateLastFulfilled?.ToFishbowlDateString());  // "LastFulfillmentDate"
             csv.Add(purchaseOrderItem.Revision);  // "RevisionLevel"
             csv.Add(purchaseOrderItem.Note);  // "Note"
-            csv.Add(purchaseOrderItem.Class?.Name);  // "QuickBooksClassName"  //QuickBooksClassName
-            csv.Add(purchaseOrderItem.Customer?.Name);  // "CustomerJob"  //CustomerName
+            csv.Add(purchaseOrderItem.Class?.Name);  // "QuickBooksClassName"
+            csv.Add(purchaseOrderItem.Customer?.Name);  // "CustomerJob"
 
             // Return the CSV lines
             return csv.ToString();
@@ -1667,32 +1545,6 @@ namespace FishbowlInventory
         #endregion Purchase Orders
 
         #region Unit of Measure
-
-        /*
-        /// <summary>
-        /// Get all Units of Measure that match the search criteria
-        /// </summary>
-        /// <param name="name">The UOM name.</param>
-        /// <param name="abbreviation">The UOM abbreviation.</param>
-        /// <param name="description">The UOM description.</param>
-        /// <param name="type">The basic type of the UOM.</param>
-        /// <param name="active">The active status of the UOM.</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<UnitOfMeasure[]> GetUnitOfMeasuresAsync(string name = null, string abbreviation = null, string description = null,
-            UnitOfMeasureType? type = null, bool? active = null, CancellationToken cancellationToken = default)
-        {
-            // Query Fishbowl to determine how many Unit Of Measure records meet the criteria
-            var sizeResult = await SearchUnitOfMeasuresAsync(1, 1, name, abbreviation, description, type, active, cancellationToken);
-            int pageSize = sizeResult.TotalCount;
-
-            // Perform the search
-            var uomResult = await SearchUnitOfMeasuresAsync(1, pageSize, name, abbreviation, description, type, active, cancellationToken);
-
-            // Return the results
-            return uomResult.Results;
-        }
-        */
 
         /// <summary>
         /// Search for units of measure.
@@ -1899,12 +1751,6 @@ namespace FishbowlInventory
         /// <returns></returns>
         public async Task<User> CreateUserAsync(User user, CancellationToken cancellationToken = default)
         {
-            // Ensure that the required fields have values
-            //if (user.Status == 0) user.Status = PurchaseOrderStatus.Historical;
-
-            //if (string.IsNullOrWhiteSpace(user.VendorName)) user.VendorName = "[UNIDENTIFIED VENDOR]";
-            //if (string.IsNullOrWhiteSpace(purchaseOrder.VendorContactName)) purchaseOrder.VendorContactName = "[VENDOR CONTACT NAME]";
-
             // Compile the CSV rows for the specified Purchase Order objects
             string[] userLines = ToCsv(user);
 
@@ -2031,83 +1877,6 @@ namespace FishbowlInventory
                 LEFT JOIN account AS acct ON acct.id = vendor.accountId
                 LEFT JOIN paymentterms AS pymt ON pymt.id = vendor.defaultPaymentTermsId
                 LEFT JOIN currency AS curr ON curr.id = vendor.currencyId";
-
-
-
-        /*
-                addr.city,
-                state.code AS state,
-                country.abbreviation AS country,
-        
-
-                LEFT JOIN address AS addr ON addr.accountId = vendor.accountId AND addr.defaultFlag = true AND addr.typeID = 50
-                LEFT JOIN stateconst AS state ON state.id = addr.stateId
-                LEFT JOIN countryconst AS country ON country.id = addr.countryId
-        */
-
-        /*private const string VENDOR_SELECT_QUERY =
-            @"SELECT 
-                vendor.id,
-                vendor.name, 
-                addr.addressName, 
-                cont.contactName, 
-                addr.typeID AS addressType, 
-                addr.defaultFlag AS isDefault,
-                addr.address AS streetAddress, 
-                addr.city AS city, 
-                state.code AS state, 
-                addr.zip, 
-                country.name AS country, 
-                addr.residentialFlag AS isResidential, 
-                mainContact.datus AS main,
-                homeContact.datus AS home, 
-                workContact.datus AS work, 
-                mobileContact.datus AS mobile, 
-                faxContact.datus AS fax, 
-                emailContact.datus AS email, 
-                pagerContact.datus AS pager,
-                webContact.datus AS web, 
-                otherContact.datus AS other, 
-                status.name AS status, 
-                vendor.accountNum AS accountNumber, 
-                vendor.activeFlag AS active, 
-                carr.name AS defaultCarrier, 
-                ship.name AS defaultShippingTerms, 
-                vendor.minOrderAmount,
-                vendor.note AS note,
-                vendor.url AS Url, 
-                carsrv.name AS defaultCarrierService, 
-                pymt.name AS defaultTerms, 
-                vendor.creditLimit,
-                vendor.dateEntered, 
-                vendor.dateLastModified, 
-                vendor.lastChangedUser, 
-                vendor.leadTime,
-                tax.name AS taxRateName
-
-                FROM vendor
-
-                LEFT JOIN address AS addr ON addr.accountId = vendor.accountId
-                LEFT JOIN contact AS cont ON (cont.addressId = addr.id AND cont.accountId = vendor.accountId)
-                LEFT JOIN stateconst AS state ON state.id = addr.stateId
-                LEFT JOIN countryconst AS country ON country.id = addr.countryId
-                LEFT JOIN contact AS homeContact ON (homeContact.accountId = vendor.accountId AND homeContact.typeID = '10')
-                LEFT JOIN contact AS workContact ON (workContact.accountId = vendor.accountId AND workContact.typeID = '20')
-                LEFT JOIN contact AS mobileContact ON (mobileContact.accountId = vendor.accountId AND mobileContact.typeID = '30')
-                LEFT JOIN contact AS faxContact ON (faxContact.accountId = vendor.accountId AND faxContact.typeID = '40')
-                LEFT JOIN contact AS mainContact ON (mainContact.accountId = vendor.accountId AND mainContact.typeID = '50')
-                LEFT JOIN contact AS emailContact ON (emailContact.accountId = vendor.accountId AND emailContact.typeID = '60')
-                LEFT JOIN contact AS pagerContact ON (pagerContact.accountId = vendor.accountId AND pagerContact.typeID = '70')
-                LEFT JOIN contact AS otherContact ON (otherContact.accountId = vendor.accountId AND otherContact.typeID = '80')
-                LEFT JOIN contact AS webContact ON (webContact.accountId = vendor.accountId AND webContact.typeID = '90')
-                LEFT JOIN carrier AS carr ON carr.id = vendor.defaultCarrierId
-                LEFT JOIN vendorstatus AS status ON status.id = vendor.statusId
-                LEFT JOIN shipterms AS ship ON ship.id = vendor.defaultShipTermsId
-                LEFT JOIN carrierservice AS carsrv ON carsrv.id = vendor.defaultCarrierServiceId
-                LEFT JOIN taxrate AS tax ON tax.id = vendor.taxRateId
-                LEFT JOIN account AS acct ON acct.id = vendor.accountId
-                LEFT JOIN paymentterms AS pymt ON pymt.id = vendor.defaultPaymentTermsId
-                LEFT JOIN currency AS curr ON curr.id = vendor.currencyId";*/
 
 
 
@@ -2301,12 +2070,6 @@ namespace FishbowlInventory
                 var webContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Web, row.Field<string>("web"));
             }
 
-
-            //Name	            AddressName	        AddressContact	AddressType	IsDefault	Address	                    City	    State	Zip	    Country	Residential	Main	                Home	Work	Mobile	Fax	Email	                        Pager	Web	Other	Group	CreditLimit	Status	Active	TaxRate	    Salesman	DefaultPriority	Number	    PaymentTerms	TaxExempt	TaxExemptNumber	URL	CarrierName	CarrierService	ShippingTerms	AlertNotes	QuickBooksClassName	ToBeEmailed	ToBePrinted	IssuableStatus
-            //Copelands, Inc.   Main Address        Copelands, Inc. 50          TRUE        PO Box 787                  Ooltewah    TN      37363           FALSE       (423) 238 - 5621 ext219                             wcopeland@copelandsinc.net                                  0           Normal  TRUE                                            COPELANDS   NET 30          FALSE                                                       Prepaid                     None                TRUE        TRUE
-            //Copelands, Inc.   Billing Address     Copelands, Inc. 20          TRUE        PO Box 787                  Ooltewah    TN      37363           FALSE       (423) 238 - 5621 ext219                             wcopeland@copelandsinc.net                                  0           Normal  TRUE                                            COPELANDS   NET 30          FALSE                                                       Prepaid                     None                TRUE        TRUE
-            //Copelands, Inc.   Shipping Address    Copelands, Inc. 10          TRUE        9616 Ooltewah Industrial Dr Ooltewah    TN      37363           FALSE       (423) 238 - 5621 ext219                             wcopeland@copelandsinc.net                                  0           Normal  TRUE                                            COPELANDS   NET 30          FALSE                                                       Prepaid                     None                TRUE        TRUE
-
             // Return the populated collection
             return vendors.ToArray();
         }
@@ -2360,7 +2123,6 @@ namespace FishbowlInventory
 
             if (includeHeaderRow)
                 lines.Add("Name,AddressName,AddressContact,AddressType,IsDefault,Address,City,State,Zip,Country,Main,Home,Work,Mobile,Fax,Email,Pager,Web,Other,CurrencyName,CurrencyRate,DefaultTerms,DefaultCarrier,DefaultShippingTerms,Status,AccountNumber,Active,MinOrderAmount,AlertNotes,URL,DefaultCarrierService");
-            //lines.Add("Name,AddressName,AddressContact,AddressType,IsDefault,Address,City,State,Zip,Country,Residential,Main,Home,Work,Mobile,Fax,Email,Pager,Web,Other,Group,CreditLimit,Status,Active,TaxRate,Salesman,DefaultPriority,Number,PaymentTerms,TaxExempt,TaxExemptNumber,URL,CarrierName,CarrierService,ShippingTerms,AlertNotes,QuickBooksClassName,ToBeEmailed,ToBePrinted,IssuableStatus");
                         
             // Iterate through the Address DTOs
             foreach (var address in vendor.Addresses)
@@ -2420,13 +2182,6 @@ namespace FishbowlInventory
 
             // Return the populated collection
             return lines.ToArray();
-
-
-
-            //Name	            AddressName	        AddressContact	AddressType	IsDefault	Address	                    City	    State	Zip	    Country	Residential	Main	                Home	Work	Mobile	Fax	Email	                        Pager	Web	Other	Group	CreditLimit	Status	Active	TaxRate	    Salesman	DefaultPriority	Number	    PaymentTerms	TaxExempt	TaxExemptNumber	URL	CarrierName	CarrierService	ShippingTerms	AlertNotes	QuickBooksClassName	ToBeEmailed	ToBePrinted	IssuableStatus
-            //Copelands, Inc.   Main Address        Copelands, Inc. 50          TRUE        PO Box 787                  Ooltewah    TN      37363           FALSE       (423) 238 - 5621 ext219                             wcopeland@copelandsinc.net                                  0           Normal  TRUE                                            COPELANDS   NET 30          FALSE                                                       Prepaid                     None                TRUE        TRUE
-            //Copelands, Inc.   Billing Address     Copelands, Inc. 20          TRUE        PO Box 787                  Ooltewah    TN      37363           FALSE       (423) 238 - 5621 ext219                             wcopeland@copelandsinc.net                                  0           Normal  TRUE                                            COPELANDS   NET 30          FALSE                                                       Prepaid                     None                TRUE        TRUE
-            //Copelands, Inc.   Shipping Address    Copelands, Inc. 10          TRUE        9616 Ooltewah Industrial Dr Ooltewah    TN      37363           FALSE       (423) 238 - 5621 ext219                             wcopeland@copelandsinc.net                                  0           Normal  TRUE                                            COPELANDS   NET 30          FALSE                                                       Prepaid                     None                TRUE        TRUE
         }
 
         #endregion Vendors
@@ -2775,84 +2530,6 @@ namespace FishbowlInventory
                 throw await HandleRequestFailureAsync(requestUri, response, "Failed to complete HTTP POST request.", cancellationToken);
             }
         }
-
-
-        /*
-        /// <summary>
-        /// Send a PUT request with a cancellation token as an asynchronous operation.
-        /// </summary>
-        /// <param name="requestUri">The Uri the request is sent to.</param>
-        /// <param name="cancellationToken">
-        /// A cancellation token that can be used by other objects or threads to receive
-        /// notice of cancellation.
-        /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        /// <exception cref="System.InvalidOperationException">
-        /// The requestUri must be an absolute URI or System.Net.Http.HttpClient.BaseAddress
-        /// must be set.
-        /// </exception>
-        /// <exception cref="System.Net.Http.HttpRequestException">
-        /// The request failed due to an underlying issue such as network connectivity, DNS
-        /// failure, server certificate validation or timeout.
-        /// </exception>
-        /// <exception cref="System.Threading.Tasks.TaskCanceledException">
-        /// .NET Core and .NET 5.0 and later only: The request failed due to timeout.
-        /// </exception>
-        private async Task PutAsync(string requestUri, CancellationToken cancellationToken = default)
-        {
-            // HTTP PUT
-            var response = await _httpClient.PutAsync(requestUri, null, cancellationToken: cancellationToken);
-
-            if (response.IsSuccessStatusCode)
-            {
-                //_ = response.Content.ReadFromJsonAsync<TValue>(_jsonOptions, cancellationToken);
-                return;
-            }
-            else
-            {
-                throw await HandleRequestFailureAsync(requestUri, response, "Failed to complete HTTP PUT request.", cancellationToken);
-            }
-        }
-
-        /// <summary>
-        /// Send a PUT request to the specified Uri containing the value serialized as JSON
-        /// in the request body.
-        /// </summary>
-        /// <typeparam name="TRequest">The type of the value to serialize.</typeparam>
-        /// <param name="requestUri">The Uri the request is sent to.</param>
-        /// <param name="requestData">The value to serialize.</param>
-        /// <param name="cancellationToken">
-        /// A cancellation token that can be used by other objects or threads to receive
-        /// notice of cancellation.
-        /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        /// <exception cref="System.InvalidOperationException">
-        /// The requestUri must be an absolute URI or System.Net.Http.HttpClient.BaseAddress
-        /// must be set.
-        /// </exception>
-        /// <exception cref="System.Net.Http.HttpRequestException">
-        /// The request failed due to an underlying issue such as network connectivity, DNS
-        /// failure, server certificate validation or timeout.
-        /// </exception>
-        /// <exception cref="System.Threading.Tasks.TaskCanceledException">
-        /// .NET Core and .NET 5.0 and later only: The request failed due to timeout.
-        /// </exception>
-        private async Task PutAsync<TRequest>(string requestUri, TRequest requestData, CancellationToken cancellationToken = default)
-        {
-            // HTTP PUT
-            var response = await _httpClient.PutAsJsonAsync(requestUri, requestData, cancellationToken: cancellationToken);
-
-            if (response.IsSuccessStatusCode)
-            {
-                //_ = response.Content.ReadFromJsonAsync<TValue>(_jsonOptions, cancellationToken);
-                return;
-            }
-            else
-            {
-                throw await HandleRequestFailureAsync(requestUri, response, "Failed to complete HTTP PUT request.", cancellationToken);
-            }
-        }
-        */
 
 
         /// <summary>
