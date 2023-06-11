@@ -7,7 +7,7 @@
 
 ---
 
-<img src="https://github.com/Kirkpajl/FishbowlInventory.RestApi/blob/master/fishbowl-logo.png?raw=true" alt="UKG Logo" width="192" height="64">
+<img src="https://github.com/Kirkpajl/FishbowlInventory.RestApi/blob/master/fishbowl-logo.png?raw=true" alt="UKG Logo" width="592" height="64">
 
 ### Fishbowl Inventory REST API implementation in C#.NET
 
