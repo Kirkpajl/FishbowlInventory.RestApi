@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.2" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
@@ -25,13 +29,16 @@
 
   <PropertyGroup>
     <PackageId>FishbowlInventory.RestApi</PackageId>
+    <Title>FishbowlInventory.RestApi</Title>
+    <Description>A C#/.net client library to interact with the Fishbowl Inventory REST API. The client does not fully implement all the API features (just yet) as it is following the needs of another project.</Description>
     <Version>1.0.0</Version>
     <Authors>Josh Kirkpatrick</Authors>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/Kirkpajl/FishbowlInventory.RestApi</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Kirkpajl/FishbowlInventory.RestApi</PackageProjectUrl>
+    <PackageIcon>https://raw.githubusercontent.com/Kirkpajl/FishbowlInventory.RestApi/master/fishbowl-icon.png</PackageIcon>
     <PackageTags>Fishbowl, Inventory</PackageTags>
-    <Description>A C#/.net client library to interact with the Fishbowl Inventory REST API. The client does not fully implement all the API features (just yet) as it is following the needs of another project.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
 </Project>
