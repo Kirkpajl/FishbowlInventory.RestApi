@@ -35,7 +35,7 @@ foreach (var module in userInfo.AllowedModules) Console.WriteLine($"  * {module}
 Console.WriteLine($"Server Version:  {userInfo.ServerVersion}");
 
 // Terminate the Fishbowl Inventory user session
-await fishbowl.LogoutAsync();
+await client.LogoutAsync();
 ```
 
 ## Documentation:
