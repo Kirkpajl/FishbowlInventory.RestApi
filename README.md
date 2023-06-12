@@ -16,7 +16,7 @@ This library can be used from NuGet channel:
 
 ## Example Usage
 
-### Get Employee Information
+### Get user permissions
 
 ```C#
 // Initialize the Fishbowl Inventory REST API client
