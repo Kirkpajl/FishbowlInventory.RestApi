@@ -3,6 +3,7 @@
 # Fishbowl Inventory REST API implementation in C#.NET
 
 #### IMPORTANT NOTE:
+* The Fishbowl REST API is currently in a beta state and revisions could be made at any time in the future.  The latest version of this project was tested using version 23.4.1 of the Fishbowl API.
 * I am not actively maintaining this repo project.
 * If you find issues - please reach out with a PR that would solve it. I would try to push NuGET with updates to help as soon as I can.
 * If anyone is interested to take over as maintainer - please contact
