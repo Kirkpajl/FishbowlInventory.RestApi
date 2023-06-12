@@ -116,19 +116,19 @@ namespace FishbowlInventory
                 Console.WriteLine("Initializing user session...");
 
                 // Login to the Fishbowl Inventory server
-                var loginUser = await fishbowl.LoginAsync();
+                var userInfo = await fishbowl.LoginAsync();
 
-                if (loginUser == null) return false;
+                if (userInfo == null) return false;
 
                 // Retain the new session token
                 Configuration.SessionToken = fishbowl.Token;
                 SaveConfig();
 
                 // User details
-                Console.WriteLine($"User Name:  {loginUser.FullName}");
-                Console.WriteLine($"Allowed Modules ({loginUser.AllowedModules.Length}):");
-                foreach (var module in loginUser.AllowedModules) Console.WriteLine($"  * {module}");
-                Console.WriteLine($"Server Version:  {loginUser.ServerVersion}");
+                Console.WriteLine($"User Name:  {userInfo.FullName}");
+                Console.WriteLine($"Allowed Modules ({userInfo.AllowedModules.Length}):");
+                foreach (var module in userInfo.AllowedModules) Console.WriteLine($"  * {module}");
+                Console.WriteLine($"Server Version:  {userInfo.ServerVersion}");
                 Console.WriteLine();
 
                 return true;
