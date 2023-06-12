@@ -56,11 +56,3 @@ This work is [licensed](https://github.com/Kirkpajl/FishbowlInventory.RestApi/bl
 
 The MIT License (MIT)
 Copyright (c) 2023 Josh Kirkpatrick
-
-#### Lazy Notes (Internal):
-
-`nuget pack FishbowlInventory.RestApi.nuspec -Prop Configuration=Release`
-
-`nuget.exe setApiKey lalalala-lala-lala-lala-lalalalalala`
-
-`nuget.exe push FishbowlInventory.RestApi.*.*.*.nupkg -Source https://www.nuget.org/api/v2/package`
