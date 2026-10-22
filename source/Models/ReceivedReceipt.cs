@@ -13,7 +13,7 @@ namespace FishbowlInventory.Models
         public int ItemType { get; set; }
 
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("reason")]
         public string Reason { get; set; }

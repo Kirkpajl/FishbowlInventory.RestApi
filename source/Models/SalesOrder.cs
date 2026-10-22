@@ -19,16 +19,16 @@ namespace FishbowlInventory.Models
 		public string Note { get; set; }
 
 		[JsonPropertyName("totalPrice")]
-		public double TotalPrice { get; set; }
+		public decimal TotalPrice { get; set; } //~~~~~ type double -> decimal
 
 		[JsonPropertyName("totalTax")]
-		public double TotalTax { get; set; }
+		public decimal TotalTax { get; set; } //~~~~~ type double -> decimal
 
 		[JsonPropertyName("paymentTotal")]
-		public double PaymentTotal { get; set; }
+		public double PaymentTotal { get; set; } //~~~~~ type double -> decimal ****???? Maybe
 
 		[JsonPropertyName("itemTotal")]
-		public double ItemTotal { get; set; }
+		public double ItemTotal { get; set; } //~~~~~ type double -> decimal
 
 		[JsonPropertyName("salesman")]
 		public string Salesman { get; set; }
@@ -52,13 +52,13 @@ namespace FishbowlInventory.Models
 		public DateTime? IssuedDate { get; set; }
 
 		[JsonPropertyName("taxRatePercentage")]
-		public double TaxRatePercentage { get; set; }
+		public double TaxRatePercentage { get; set; } // taxRate in so table is double, but it this the same thing?
 
 		[JsonPropertyName("taxRateName")]
 		public string TaxRateName { get; set; }
 
 		[JsonPropertyName("shippingCost")]
-		public double ShippingCost { get; set; }
+		public double ShippingCost { get; set; } //~~~~~ type double -> decimal
 
 		[JsonPropertyName("shippingTerms")]
 		public string ShippingTerms { get; set; }

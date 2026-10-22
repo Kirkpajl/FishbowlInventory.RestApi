@@ -31,7 +31,7 @@ namespace FishbowlInventory.Api.Inventory
         /// The quantity of the part to move to a different location.
         /// </summary>
         [JsonPropertyName("quantity")]
-		public int Quantity { get; set; }
+		public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
 		/// <summary>
 		/// The part unit of measure.

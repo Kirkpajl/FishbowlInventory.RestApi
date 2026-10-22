@@ -28,7 +28,7 @@ namespace FishbowlInventory.Models
         //public bool IsTaxable { get; set; }
 
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("productPrice")]
         public int ProductPrice { get; set; }
@@ -79,10 +79,10 @@ namespace FishbowlInventory.Models
         public int ItemAdjustId { get; set; }
 
         [JsonPropertyName("qtyFulfilled")]
-        public int QuantityFulfilled { get; set; }
+        public decimal QuantityFulfilled { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("qtyPicked")]
-        public int QuantityPicked { get; set; }
+        public decimal QuantityPicked { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("revisionLevel")]
         public int RevisionLevel { get; set; }

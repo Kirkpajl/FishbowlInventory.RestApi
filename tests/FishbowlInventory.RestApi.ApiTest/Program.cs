@@ -17,7 +17,7 @@ namespace FishbowlInventory
 
 
         static async Task Main()
-        {            
+        {       
             // Output Fishbowl configuration
             Console.WriteLine("FishbowlInventory Test Client");
             Console.WriteLine("-------------------------------------");
@@ -25,7 +25,7 @@ namespace FishbowlInventory
             Console.WriteLine($"AppDescription:  {Configuration.AppDescription}");
             Console.WriteLine($"AppId:  {Configuration.AppId}");
             Console.WriteLine($"Username:  {Configuration.Username}");
-            Console.WriteLine($"Password:  {Configuration.Password}");
+            //Console.WriteLine($"Password:  {Configuration.Password}");
             Console.WriteLine("-------------------------------------");
             Console.WriteLine("");
 
@@ -41,31 +41,31 @@ namespace FishbowlInventory
                 //await TestPlugins(fishbowl);  //TODO: Determine what authorization token to use for the Fishbowl Plugin Search
 
                 // Inventory Parts
-                //await TestInventoryParts(fishbowl);
+                await TestInventoryParts(fishbowl);
 
                 // Location Groups
-                //await TestLocationGroups(fishbowl);
+                await TestLocationGroups(fishbowl);
 
                 // Manufacture Orders
-                //await TestManufactureOrders(fishbowl);
+                await TestManufactureOrders(fishbowl);
 
                 // Parts
-                //await TestParts(fishbowl);
+                await TestParts(fishbowl);
 
                 // Purchase Orders
                 await TestPurchaseOrders(fishbowl);
 
                 // Units of Measure
-                //await TestUnitsOfMeasure(fishbowl);
+                await TestUnitsOfMeasure(fishbowl);
 
                 // Users
-                //await TestUsers(fishbowl);
+                await TestUsers(fishbowl);
 
                 // Vendors
-                //await TestVendors(fishbowl);
+                await TestVendors(fishbowl);
 
                 // Work Orders
-                //await TestWorkOrders(fishbowl);
+                await TestWorkOrders(fishbowl);
 
                 // Terminate the Fishbowl API session
                 await TerminateSession(fishbowl);
@@ -216,6 +216,9 @@ namespace FishbowlInventory
                 {
                     Console.WriteLine($"  [{manufactureOrder.Id}]:  {manufactureOrder.Number} - {manufactureOrder.BillOfMaterialDescription}");
                 }
+                Console.WriteLine("");
+                var manufacturingOrder2 = await fishbowl.GetManufactureOrderAsync(manufactureOrdersResponse.Results[0].Id);
+                Console.WriteLine($"This is from GetManufactureOrderAsync:  [{manufacturingOrder2.Id}]:  {manufacturingOrder2.Number}");
                 Console.WriteLine("");
             }
             catch (Exception ex)

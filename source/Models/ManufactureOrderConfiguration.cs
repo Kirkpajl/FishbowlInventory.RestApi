@@ -40,13 +40,13 @@ namespace FishbowlInventory.Models
         /// The quantity to be fulfilled.
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
         /// <summary>
         /// The quantity already fulfilled.
         /// </summary>
         [JsonPropertyName("quantityFulfilled")]
-        public int QuantityFulfilled { get; set; }
+        public decimal QuantityFulfilled { get; set; } //~~~~~ type int -> decimal
 
         /// <summary>
         /// The amount to adjust the configuration price on the sales order.

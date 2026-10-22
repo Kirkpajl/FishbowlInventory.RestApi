@@ -25,10 +25,10 @@ namespace FishbowlInventory.Models
         public Location Location { get; set; }
 
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("quantityCommitted")]
-        public int QuantityCommitted { get; set; }
+        public decimal QuantityCommitted { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("woNum")]
         public string WorkOrderNumber { get; set; }

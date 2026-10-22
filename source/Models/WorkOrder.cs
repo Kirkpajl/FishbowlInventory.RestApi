@@ -66,13 +66,13 @@ namespace FishbowlInventory.Models
         public int QuickBooksClassId { get; set; }
 
         [JsonPropertyName("qtyOrdered")]
-        public int QuantityOrdered { get; set; }
+        public decimal QuantityOrdered { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("qtyScrapped")]
-        public int? QuantityScrapped { get; set; }
+        public decimal? QuantityScrapped { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("qtyTarget")]
-        public int QuantityTarget { get; set; }
+        public decimal QuantityTarget { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("statusId")]
         public int StatusId { get; set; }

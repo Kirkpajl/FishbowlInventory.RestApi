@@ -19,7 +19,7 @@ namespace FishbowlInventory.Models
         public string ProductDescription { get; set; }
 
         [JsonPropertyName("qtyShipped")]
-        public int QuantityShipped { get; set; }
+        public decimal QuantityShipped { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("uom")]
         public UnitOfMeasure UnitOfMeasure { get; set; }

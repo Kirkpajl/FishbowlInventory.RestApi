@@ -55,7 +55,7 @@ namespace FishbowlInventory.Models
         public int ReceiptId { get; set; }
 
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("uomName")]
         public string UnitOfMeasureName { get; set; }

@@ -106,7 +106,7 @@ namespace FishbowlInventory.Models
         public string CurrencyName { get; set; }
 
         [JsonPropertyName("currencyRate")]
-        public decimal CurrencyRate { get; set; }
+        public double CurrencyRate { get; set; } //~~~~~ yes, Fishbowl table has this as a double
 
         [JsonPropertyName("leadTime")]
         public int LeadTime { get; set; }

@@ -25,7 +25,7 @@ namespace FishbowlInventory.Models
         public Tag Tag { get; set; }
 
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("uom")]
         public UnitOfMeasure UnitOfMeasure { get; set; }

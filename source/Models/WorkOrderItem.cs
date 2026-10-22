@@ -55,13 +55,13 @@ namespace FishbowlInventory.Models
 		//public string InstructionURL { get; set; }
 
 		[JsonPropertyName("qtyScrapped")]
-		public int QuantityScrapped { get; set; }
+		public decimal QuantityScrapped { get; set; } //~~~~~ type int -> decimal
 
 		[JsonPropertyName("qtyTarget")]
-		public int QuantityTarget { get; set; }
+		public decimal QuantityTarget { get; set; } //~~~~~ type int -> decimal
 
 		[JsonPropertyName("qtyUsed")]
-		public int QuantityUsed { get; set; }
+		public decimal QuantityUsed { get; set; } //~~~~~ type int -> decimal
 
         [JsonPropertyName("sortId")]
         public int SortId { get; set; }

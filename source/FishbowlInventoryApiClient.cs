@@ -161,8 +161,8 @@ namespace FishbowlInventory
         public async Task<UserInformation> LoginAsync(CancellationToken cancellationToken = default)
         {
             // Execute the login request
-            var request = BuildLoginRequest();
-            var response = await PostAsync<LoginRequest, LoginResponse>("/api/login", request, cancellationToken);
+            LoginRequest request = BuildLoginRequest();
+            LoginResponse response = await PostAsync<LoginRequest, LoginResponse>("/api/login", request, cancellationToken);
 
             // Cache the token
             SetToken(response.Token);
@@ -242,8 +242,8 @@ namespace FishbowlInventory
             string requestUri = $"/api/import/{name}";
 
             // Set content type of the POST request to text/csv
-            var content = new StringContent(string.Join("\r\n", lines), Encoding.UTF8, "text/csv");
-            var request = new HttpRequestMessage
+            StringContent content = new StringContent(string.Join("\r\n", lines), Encoding.UTF8, "text/csv");
+            HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(requestUri, UriKind.RelativeOrAbsolute),
@@ -251,7 +251,7 @@ namespace FishbowlInventory
             };
 
             // HTTP POST
-            var response = await _httpClient.SendAsync(request, cancellationToken);
+            HttpResponseMessage response = await _httpClient.SendAsync(request, cancellationToken);
             if (!response.IsSuccessStatusCode)
             {
                 throw await HandleRequestFailureAsync(requestUri, response, "Failed to complete HTTP POST request.", cancellationToken);
@@ -272,7 +272,7 @@ namespace FishbowlInventory
             const string requestUri = "/api/data-query";
 
             // Set content type of the GET request to application/sql
-            var request = new HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(requestUri, UriKind.RelativeOrAbsolute),
@@ -280,7 +280,7 @@ namespace FishbowlInventory
             };
 
             // HTTP GET
-            var response = await _httpClient.SendAsync(request, cancellationToken);
+            HttpResponseMessage response = await _httpClient.SendAsync(request, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
                 string json = await response.Content.ReadAsStringAsync();
@@ -306,7 +306,7 @@ namespace FishbowlInventory
             const string requestUri = "/api/data-query";
 
             // Set content type of the GET request to application/sql
-            var request = new HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(requestUri, UriKind.RelativeOrAbsolute),
@@ -314,7 +314,7 @@ namespace FishbowlInventory
             };
 
             // HTTP GET
-            var response = await _httpClient.SendAsync(request, cancellationToken);
+            HttpResponseMessage response = await _httpClient.SendAsync(request, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
                 //string json = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -364,7 +364,7 @@ namespace FishbowlInventory
             if (string.IsNullOrWhiteSpace(authorization)) throw new ArgumentNullException(nameof(authorization));
 
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "plugin", plugin },
                 { "authorization", authorization }
@@ -429,7 +429,7 @@ namespace FishbowlInventory
             int? locationId = null, int? locationGroupId = null, string abc = null, bool includeZeroQuantities = false, bool? active = true, CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() },
@@ -504,7 +504,7 @@ namespace FishbowlInventory
         public Task<PagedResultSet<LocationGroup>> SearchLocationGroupsAsync(int pageNumber, int pageSize = 100, string name = null, bool? active = null, CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() }
@@ -556,7 +556,7 @@ namespace FishbowlInventory
             CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() }
@@ -805,7 +805,7 @@ namespace FishbowlInventory
             CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() }
@@ -839,13 +839,13 @@ namespace FishbowlInventory
         /// <param name="uomId">The unique identifier for the unit of measure.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<VendorPartCost> GetBestPartCostAsync(int id, int vendorId, double quantity, int uomId, CancellationToken cancellationToken = default)
+        public Task<VendorPartCost> GetBestPartCostAsync(int id, int vendorId, decimal quantity, int uomId, CancellationToken cancellationToken = default)
         {
             // Ensure that the parameters are valid
             if (quantity < 0) throw new ArgumentOutOfRangeException(nameof(quantity), "The quantity must be greater than zero.");
 
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>();
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>();
 
             queryParameters.AddParameterIfNotNull("vendorId", vendorId);
             queryParameters.AddParameterIfNotNull("quantity", quantity);
@@ -868,7 +868,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{PART_SELECT_QUERY} WHERE p.id = '{id}'";
 
             // Execute the SELECT query
-            var parts = await ExecuteQueryAsync<Part>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            Part[] parts = await ExecuteQueryAsync<Part>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Return the first/only record
             return parts.FirstOrDefault();
@@ -885,7 +885,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{PART_SELECT_QUERY} WHERE p.num = '{number}'";
 
             // Execute the SELECT query
-            var parts = await ExecuteQueryAsync<Part>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            Part[] parts = await ExecuteQueryAsync<Part>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Return the first/only record
             return parts.FirstOrDefault();
@@ -906,14 +906,14 @@ namespace FishbowlInventory
         /// <param name="includePricingRules">Indicates whether the list of pricing rules should be returned.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<GetBestProductPriceResponse> GetBestProductPriceAsync(int id, int customerId, double quantity, DateTime? date = null, int? uomId = null, 
+        public Task<GetBestProductPriceResponse> GetBestProductPriceAsync(int id, int customerId, decimal quantity, DateTime? date = null, int? uomId = null, 
             bool? includePricingRules = null, CancellationToken cancellationToken = default)
         {
             // Ensure that the parameters are valid
             if (quantity < 0) throw new ArgumentOutOfRangeException(nameof(quantity), "The quantity must be greater than zero.");
 
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>();
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>();
 
             queryParameters.AddParameterIfNotNull("customerId", customerId);
             queryParameters.AddParameterIfNotNull("quantity", quantity);
@@ -931,7 +931,8 @@ namespace FishbowlInventory
 
         #region Purchase Orders
 
-        private const string PURCHASEORDER_IMPORT_NAME = "PurchaseOrder";
+        //private const string PURCHASEORDER_IMPORT_NAME = "PurchaseOrder";
+        private const string PURCHASEORDER_IMPORT_NAME = "Purchase-Order";
         private const string PURCHASEORDER_SELECT_QUERY =
             @"SELECT
             po.id AS Id,
@@ -1027,7 +1028,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{PURCHASEORDER_SELECT_QUERY} ORDER BY po.num";
 
             // Execute the SELECT query and cast to object collection
-            var purchaseOrdersTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            DataTable purchaseOrdersTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Parse the rows into PurchaseOrder/PurchaseOrderItem objects
             return ToPurchaseOrders(purchaseOrdersTable);
@@ -1066,7 +1067,7 @@ namespace FishbowlInventory
             string remitTo = null, string shipTo = null, string customerName = null, CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() }
@@ -1109,7 +1110,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{PURCHASEORDER_SELECT_QUERY} WHERE po.id = '{id}'";
 
             // Execute the SELECT query
-            var purchaseOrdersTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            DataTable purchaseOrdersTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Parse the rows into PurchaseOrder/PurchaseOrderItem objects
             return ToPurchaseOrders(purchaseOrdersTable).FirstOrDefault();
@@ -1128,7 +1129,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{PURCHASEORDER_SELECT_QUERY} WHERE po.num = '{number}'";
 
             // Execute the SELECT query
-            var purchaseOrdersTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            DataTable purchaseOrdersTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Parse the rows into PurchaseOrder/PurchaseOrderItem objects
             return ToPurchaseOrders(purchaseOrdersTable).FirstOrDefault();
@@ -1191,7 +1192,7 @@ namespace FishbowlInventory
                 WHERE po.num = '{poNumber}'";
 
             // Execute the SELECT query
-            var poItemsTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            DataTable poItemsTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Parse the rows into PurchaseOrderItem objects
             return ToPurchaseOrderItems(poItemsTable);
@@ -1225,6 +1226,26 @@ namespace FishbowlInventory
             if (string.IsNullOrWhiteSpace(purchaseOrder.ShipToAddress.Country)) purchaseOrder.ShipToAddress.Country = "USA";
 
             if (string.IsNullOrWhiteSpace(purchaseOrder.Carrier.Name)) purchaseOrder.Carrier.Name = "Will Call";
+
+            //~~~~~ checking if required dates have been set, if not, add today
+            
+            if (purchaseOrder.Created.DateLastModified == DateTime.MinValue || string.IsNullOrWhiteSpace(purchaseOrder.Created.DateLastModified.ToShortDateString()))
+            {
+                purchaseOrder.Created.DateLastModified = DateTime.Now;
+                purchaseOrder.Created.Username = _userName;
+            }
+            if (purchaseOrder.LastModified.DateLastModified == DateTime.MinValue || string.IsNullOrWhiteSpace(purchaseOrder.LastModified.DateLastModified.ToShortDateString()))
+            {
+                purchaseOrder.LastModified.DateLastModified = DateTime.Now;
+                purchaseOrder.LastModified.Username = _userName;
+            }
+            if (purchaseOrder.Issued.DateLastModified == DateTime.MinValue || string.IsNullOrWhiteSpace(purchaseOrder.Issued.DateLastModified.ToShortDateString()))
+            {
+                purchaseOrder.Issued.DateLastModified = DateTime.Now;
+                purchaseOrder.Issued.Username = _userName;
+            }
+            //pur
+
 
             // Compile the CSV rows for the specified Purchase Order objects
             string[] purchaseOrderLines = ToCsv(purchaseOrder);
@@ -1316,13 +1337,13 @@ namespace FishbowlInventory
             if (table == null) return Array.Empty<PurchaseOrder>();
 
             // Initialize the collection
-            var items = new List<PurchaseOrder>();
+            List<PurchaseOrder> items = new List<PurchaseOrder>();
 
             // Iterate through the data rows
             foreach (DataRow row in table.Rows)
             {
                 // Parse the top-level properties
-                var item = row.ToObject<PurchaseOrder>();
+                PurchaseOrder item = row.ToObject<PurchaseOrder>();
 
                 item.Buyer.Id = row.Field<int>("BuyerId");
                 item.Buyer.UserName = row.Field<string>("BuyerUserName");
@@ -1335,13 +1356,13 @@ namespace FishbowlInventory
                 item.Carrier.Id = row.Field<int>("CarrierId");
                 item.Carrier.Name = row.Field<string>("CarrierName");
 
-                var createdDate = row.DateField("CreatedDate");
+                DateTime? createdDate = row.DateField("CreatedDate");
                 if (createdDate.HasValue) item.Created.DateLastModified = createdDate.Value;
 
-                var issuedDate = row.DateField("IssuedDate");
+                DateTime? issuedDate = row.DateField("IssuedDate");
                 if (issuedDate.HasValue) item.Issued.DateLastModified = issuedDate.Value;
 
-                var lastModifiedDate = row.DateField("LastModifiedDate");
+                DateTime? lastModifiedDate = row.DateField("LastModifiedDate");
                 if (lastModifiedDate.HasValue) item.LastModified.DateLastModified = lastModifiedDate.Value;
 
                 item.PaymentTerms.Id = row.Field<int>("PaymentTermsId");
@@ -1391,13 +1412,13 @@ namespace FishbowlInventory
             if (table == null) return Array.Empty<PurchaseOrderItem>();
 
             // Initialize the collection
-            var items = new List<PurchaseOrderItem>();
+            List<PurchaseOrderItem> items = new List<PurchaseOrderItem>();
 
             // Iterate through the data rows
             foreach (DataRow row in table.Rows)
             {
                 // Parse the top-level properties
-                var item = row.ToObject<PurchaseOrderItem>();
+                PurchaseOrderItem item = row.ToObject<PurchaseOrderItem>();
 
                 item.Class.Name = row.Field<string>("QuickBooksClassName");
 
@@ -1453,14 +1474,14 @@ namespace FishbowlInventory
         private static string[] ToCsv(PurchaseOrder purchaseOrder)
         {
             // Initialize CSV line collection
-            var lines = new List<string>
+            List<string> lines = new List<string>
             {
                 "\"Flag\",\"PONum\",\"Status\",\"VendorName\",\"VendorContact\",\"RemitToName\",\"RemitToAddress\",\"RemitToCity\",\"RemitToState\",\"RemitToZip\",\"RemitToCountry\",\"ShipToName\",\"DeliverToName\",\"ShipToAddress\",\"ShipToCity\",\"ShipToState\",\"ShipToZip\",\"ShipToCountry\",\"CarrierName\",\"CarrierService\",\"VendorSONum\",\"CustomerSONum\",\"CreatedDate\",\"CompletedDate\",\"ConfirmedDate\",\"FulfillmentDate\",\"IssuedDate\",\"Buyer\",\"ShippingTerms\",\"PaymentTerms\",\"FOB\",\"Note\",\"QuickBooksClassName\",\"LocationGroupName\",\"URL\",\"Phone\",\"Email\"",
                 "\"Flag\",\"POItemTypeID\",\"PartNumber\",\"VendorPartNumber\",\"PartQuantity\",\"FulfilledQuantity\",\"PickedQuantity\",\"UOM\",\"PartPrice\",\"FulfillmentDate\",\"LastFulfillmentDate\",\"RevisionLevel\",\"Note\",\"QuickBooksClassName\",\"CustomerJob\""
             };
 
             // Append the CSV line for the PO
-            var csv = new CsvBuilder();
+            CsvBuilder csv = new CsvBuilder();
 
             csv.Add("PO");  // "Flag"
             csv.Add(purchaseOrder.Number);  // "PONum"
@@ -1484,11 +1505,11 @@ namespace FishbowlInventory
             csv.Add(purchaseOrder.CarrierServiceName);  // "CarrierService"
             csv.Add(purchaseOrder.VendorSalesOrderNumber);  // "VendorSONum"
             csv.Add(purchaseOrder.CustomerSalesOrderNumber);  // "CustomerSONum"
-            csv.Add(purchaseOrder.Created.DateLastModified.ToShortDateString());  // "CreatedDate"
-            csv.Add(purchaseOrder.CompletedDate?.ToShortDateString());  // "CompletedDate"
-            csv.Add(purchaseOrder.ConfirmedDate?.ToShortDateString());  // "ConfirmedDate"
-            csv.Add(purchaseOrder.FulfillmentDate?.ToShortDateString());  // "FulfillmentDate"
-            csv.Add(purchaseOrder.LastModified.DateLastModified.ToShortDateString());  // "IssuedDate"
+            csv.Add(purchaseOrder.Created.DateLastModified.ToString(@"M\/d\/yyyy"));  // "CreatedDate"
+            csv.Add(purchaseOrder.CompletedDate?.ToString(@"M\/d\/yyyy"));  // "CompletedDate"
+            csv.Add(purchaseOrder.ConfirmedDate?.ToString(@"M\/d\/yyyy"));  // "ConfirmedDate"
+            csv.Add(purchaseOrder.FulfillmentDate?.ToString(@"M\/d\/yyyy"));  // "FulfillmentDate"
+            csv.Add(purchaseOrder.LastModified.DateLastModified.ToString(@"M\/d\/yyyy"));  // "IssuedDate"
             csv.Add(purchaseOrder.Buyer.UserName);  // "Buyer"
             csv.Add(purchaseOrder.ShippingTermsName);  // "ShippingTerms"
             csv.Add(purchaseOrder.PaymentTerms.Name);  // "PaymentTerms"
@@ -1505,7 +1526,7 @@ namespace FishbowlInventory
             // Add the CSV lines for the PO Items
             if (purchaseOrder.Items != null)
             {
-                foreach (var item in purchaseOrder.Items) lines.Add(ToCsv(item));
+                foreach (PurchaseOrderItem item in purchaseOrder.Items) lines.Add(ToCsv(item));
             }
 
             // Return the CSV lines
@@ -1520,7 +1541,7 @@ namespace FishbowlInventory
         private static string ToCsv(PurchaseOrderItem purchaseOrderItem)
         {
             // Build the CSV line for the PO Item
-            var csv = new CsvBuilder();
+            CsvBuilder csv = new CsvBuilder();
 
             csv.Add("Item");  // "Flag"
             csv.Add(purchaseOrderItem.Type?.Id.ToString());  // "POItemTypeID"
@@ -1562,7 +1583,7 @@ namespace FishbowlInventory
             UnitOfMeasureType? type = null, bool? active = null, CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() }
@@ -1678,7 +1699,7 @@ namespace FishbowlInventory
             string initials = null, bool? active = null, CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() }
@@ -1721,7 +1742,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{USER_SELECT_QUERY} WHERE user.id = '{id}'";
 
             // Execute the SELECT query
-            var users = await ExecuteQueryAsync<User>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            User[] users = await ExecuteQueryAsync<User>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Return the first/only record
             return users.FirstOrDefault();
@@ -1738,7 +1759,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{USER_SELECT_QUERY} WHERE user.userName = '{userName}'";
 
             // Execute the SELECT query
-            var users = await ExecuteQueryAsync<User>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            User[] users = await ExecuteQueryAsync<User>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Return the first/only record
             return users.FirstOrDefault();
@@ -1778,13 +1799,13 @@ namespace FishbowlInventory
         private static string[] ToCsv(User user)
         {
             // Initialize CSV line collection
-            var lines = new List<string>
+            List<string> lines = new List<string>
             {
                 "\"UserName\",\"FirstName\",\"LastName\",\"Initials\",\"Active\",\"UserGroups\",\"DefaultLocGroup\",\"LocGroups\",\"Email\",\"Phone\""
             };
 
             // Append the CSV line for the PO
-            var csv = new CsvBuilder();
+            CsvBuilder csv = new CsvBuilder();
 
             csv.Add(user.UserName);  // "UserName"
             csv.Add(user.FirstName);  // "FirstName"
@@ -1891,7 +1912,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{VENDOR_SELECT_QUERY} GROUP BY addr.id ORDER BY vendor.name";
 
             // Execute the SELECT query
-            var vendorTable =  await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            DataTable vendorTable =  await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Parse the rows into Vendor/Address/Contact objects
             return ToVendors(vendorTable);
@@ -1914,7 +1935,7 @@ namespace FishbowlInventory
             string state = null, string country = null, bool? active = null, CancellationToken cancellationToken = default)
         {
             // Assemble the Request Uri
-            var queryParameters = new Dictionary<string, string>
+            Dictionary<string, string> queryParameters = new Dictionary<string, string>
             {
                 { "pageNumber", pageNumber.ToString() },
                 { "pageSize", pageSize.ToString() }
@@ -1944,7 +1965,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{VENDOR_SELECT_QUERY} WHERE (vendor.id = {id}) AND (addr.defaultFlag = TRUE) GROUP BY addr.id";
 
             // Execute the SELECT query
-            var vendorTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            DataTable vendorTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Parse the rows into Vendor/Address/Contact objects
             return ToVendors(vendorTable).FirstOrDefault();
@@ -1961,7 +1982,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{VENDOR_SELECT_QUERY} WHERE (LOWER(vendor.name) LIKE \"{name.ToLower()}\") AND (addr.defaultFlag = TRUE) GROUP BY addr.id";
 
             // Execute the SELECT query
-            var vendorTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            DataTable vendorTable = await ExecuteQueryAsync(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Parse the rows into Vendor/Address/Contact objects
             return ToVendors(vendorTable).FirstOrDefault();
@@ -2004,13 +2025,13 @@ namespace FishbowlInventory
             if (table == null) return Array.Empty<Vendor>();
 
             // Initialize CSV dto collection
-            var vendors = new List<Vendor>();
+            List<Vendor> vendors = new List<Vendor>();
 
             // Iterate through the VendorCSV rows
             foreach (DataRow row in table.Rows)
             {
                 // Create/Retrieve the Vendor DTO by the csv's Name
-                var vendor = vendors.SingleOrDefault(c => c.Name == row.Field<string>("name"));
+                Vendor vendor = vendors.SingleOrDefault(c => c.Name == row.Field<string>("name"));
                 if (vendor == null)
                 {
                     _ = Enum.TryParse(row.Field<string>("status"), out VendorStatus vendorStatus);
@@ -2020,7 +2041,7 @@ namespace FishbowlInventory
                         Id = row.Field<int>("id"),
                         Name = row.Field<string>("name"),
                         CurrencyName = row.Field<string>("currencyName"),
-                        CurrencyRate = row.Field<decimal>("currencyRate"),
+                        CurrencyRate = row.Field<double>("currencyRate"), // decimal -> double
                         DefaultPaymentTerms = row.Field<string>("defaultPaymentTerms"),
                         DefaultCarrier = row.Field<string>("defaultCarrier"),
                         DefaultShippingTerms = row.Field<string>("defaultShippingTerms"),
@@ -2037,7 +2058,7 @@ namespace FishbowlInventory
                 }
 
                 // Create/Retrieve the Address DTO by the csv's AddressName
-                var address = vendor.Addresses.SingleOrDefault(a => a.Name == row.Field<string>("addressName"));
+                Address address = vendor.Addresses.SingleOrDefault(a => a.Name == row.Field<string>("addressName"));
                 if (address == null)
                 {
                     _ = Enum.TryParse(row.Field<string>("addressType"), out AddressType addressType);
@@ -2059,15 +2080,15 @@ namespace FishbowlInventory
                 }
 
                 // Create/Retrieve the Contact records
-                var homeContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Home, row.Field<string>("home"));
-                var workContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Work, row.Field<string>("work"));
-                var mobileContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Mobile, row.Field<string>("mobile"));
-                var faxContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Fax, row.Field<string>("fax"));
-                var mainContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Main, row.Field<string>("main"));
-                var emailContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Email, row.Field<string>("email"));
-                var pagerContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Pager, row.Field<string>("pager"));
-                var otherContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Other, row.Field<string>("other"));
-                var webContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Web, row.Field<string>("web"));
+                ContactInformation homeContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Home, row.Field<string>("home"));
+                ContactInformation workContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Work, row.Field<string>("work"));
+                ContactInformation mobileContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Mobile, row.Field<string>("mobile"));
+                ContactInformation faxContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Fax, row.Field<string>("fax"));
+                ContactInformation mainContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Main, row.Field<string>("main"));
+                ContactInformation emailContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Email, row.Field<string>("email"));
+                ContactInformation pagerContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Pager, row.Field<string>("pager"));
+                ContactInformation otherContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Other, row.Field<string>("other"));
+                ContactInformation webContact = AddUpdateContact(address.Contacts, row.Field<string>("contactName"), ContactType.Web, row.Field<string>("web"));
             }
 
             // Return the populated collection
@@ -2085,7 +2106,7 @@ namespace FishbowlInventory
         private static ContactInformation AddUpdateContact(ICollection<ContactInformation> contacts, string name, ContactType type, string datum)
         {
             // Search for a Contact record matching the specified Type and Datum
-            var contact = contacts.SingleOrDefault(c => c.Type == type && c.Datum == datum);
+            ContactInformation contact = contacts.SingleOrDefault(c => c.Type == type && c.Datum == datum);
 
             // Create a new Contact record (if necessary)
             if (contact == null)
@@ -2119,27 +2140,27 @@ namespace FishbowlInventory
             if (vendor.Addresses == null || vendor.Addresses.Count == 0) throw new ArgumentException("The Vendor record must have at least one address!", nameof(vendor));
 
             // Initialize CSV lines collection
-            var lines = new List<string>();
+            List<string> lines = new List<string>();
 
             if (includeHeaderRow)
                 lines.Add("Name,AddressName,AddressContact,AddressType,IsDefault,Address,City,State,Zip,Country,Main,Home,Work,Mobile,Fax,Email,Pager,Web,Other,CurrencyName,CurrencyRate,DefaultTerms,DefaultCarrier,DefaultShippingTerms,Status,AccountNumber,Active,MinOrderAmount,AlertNotes,URL,DefaultCarrierService");
                         
             // Iterate through the Address DTOs
-            foreach (var address in vendor.Addresses)
+            foreach (Address address in vendor.Addresses)
             {
                 // Create pointers to address contacts
-                var homeContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Home);
-                var workContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Work);
-                var mobileContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Mobile);
-                var faxContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Fax);
-                var mainContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Main);
-                var emailContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Email);
-                var pagerContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Pager);
-                var otherContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Other);
-                var webContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Web);
+                ContactInformation homeContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Home);
+                ContactInformation workContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Work);
+                ContactInformation mobileContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Mobile);
+                ContactInformation faxContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Fax);
+                ContactInformation mainContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Main);
+                ContactInformation emailContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Email);
+                ContactInformation pagerContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Pager);
+                ContactInformation otherContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Other);
+                ContactInformation webContact = address.Contacts.SingleOrDefault(c => c.Type == ContactType.Web);
 
                 // Create a CSV record for this Vendor-Address-Contact row
-                var csv = new CsvBuilder();
+                CsvBuilder csv = new CsvBuilder();
 
                 csv.Add(vendor.Name);  // Name
                 csv.Add(address.Name);  // AddressName
@@ -2274,7 +2295,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{WORKORDER_SELECT_QUERY} WHERE wo.id = '{id}'";
 
             // Execute the SELECT query
-            var workOrders = await ExecuteQueryAsync<WorkOrder>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            WorkOrder[] workOrders = await ExecuteQueryAsync<WorkOrder>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Return the first (and presumably only) record
             return workOrders.FirstOrDefault();
@@ -2291,7 +2312,7 @@ namespace FishbowlInventory
             string sqlQuery = $"{WORKORDER_SELECT_QUERY} WHERE wo.num = '{number}'";
 
             // Execute the SELECT query
-            var workOrders = await ExecuteQueryAsync<WorkOrder>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
+            WorkOrder[] workOrders = await ExecuteQueryAsync<WorkOrder>(sqlQuery: sqlQuery, cancellationToken: cancellationToken);
 
             // Return the first (and presumably only) record
             return workOrders.FirstOrDefault();
@@ -2342,8 +2363,8 @@ namespace FishbowlInventory
 
         #endregion Work Orders
 
-
-
+ 
+        
         #region API Helper Methods
 
         /// <summary>
@@ -2406,7 +2427,7 @@ namespace FishbowlInventory
         private async Task PostAsync(string requestUri, CancellationToken cancellationToken = default)
         {
             // HTTP POST
-            var response = await _httpClient.PostAsync(requestUri, null, cancellationToken: cancellationToken);
+            HttpResponseMessage response = await _httpClient.PostAsync(requestUri, null, cancellationToken: cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
@@ -2481,7 +2502,7 @@ namespace FishbowlInventory
         private async Task<TResponse> PostAsync<TResponse>(string requestUri, CancellationToken cancellationToken = default)
         {
             // HTTP POST
-            var response = await _httpClient.PostAsync(requestUri, null, cancellationToken: cancellationToken);
+            HttpResponseMessage response = await _httpClient.PostAsync(requestUri, null, cancellationToken: cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
@@ -2582,8 +2603,8 @@ namespace FishbowlInventory
         private async Task<Exception> HandleRequestFailureAsync(string requestUri, HttpResponseMessage httpResponse, string message, CancellationToken cancellationToken = default)
         {
             // Extract the response's content as a string
-            var content = await httpResponse.Content.ReadAsStringAsync();
-            var fishbowlError = await httpResponse.Content.ReadFromJsonAsync<FishbowlErrorResponse>(_jsonOptions, cancellationToken);
+            string content = await httpResponse.Content.ReadAsStringAsync();
+            FishbowlErrorResponse fishbowlError = await httpResponse.Content.ReadFromJsonAsync<FishbowlErrorResponse>(_jsonOptions, cancellationToken);
             string errorMessage = fishbowlError?.Message;
 
             //{"timeStamp":"2022-10-21T15:40:18.531-0400","status":401,"message":"Invalid authorization token.","path":"/api/integrations/plugin-info"}

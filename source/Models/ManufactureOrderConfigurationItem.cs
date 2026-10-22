@@ -1,4 +1,5 @@
-﻿using FishbowlInventory.Enumerations;
+﻿using FishbowlInventory.Converters; //~~~~~ added
+using FishbowlInventory.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +33,13 @@ namespace FishbowlInventory.Models
         /// The quantity to be fulfilled.
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type int -> decimal
 
         /// <summary>
         /// The quantity already fulfilled.
         /// </summary>
         [JsonPropertyName("quantityFulfilled")]
-        public int QuantityFulfilled { get; set; }
+        public decimal QuantityFulfilled { get; set; } //~~~~~ type int -> decimal
 
         /// <summary>
         /// Indicates if the item is a stage.
@@ -95,6 +96,7 @@ namespace FishbowlInventory.Models
         /// 'Finished Good' | 'Raw Good' | 'Repair Raw Good' | 'Note' | 'Bill of Materials'
         /// </remarks>
         [JsonPropertyName("type")]
+        [JsonConverter(typeof(EnumStringConverter<ConfigurationItemType>))] //~~~~~ added
         public ConfigurationItemType Type { get; set; }
 
         /// <summary>

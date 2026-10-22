@@ -23,20 +23,19 @@
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.Text.Json" Version="7.0.2" />
-    <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
+    <PackageReference Include="System.Text.Json" Version="10.0.12" /> <!-- ~~~~~ ThisAndThat Changed ~~~~~ updated latest - Version 11 in progress -->
+    <PackageReference Include="System.Net.Http.Json" Version="10.0.12" /> <!-- ~~~~~ ThisAndThat Changed ~~~~~ updated latest Version 11 in progress -->
   </ItemGroup>
 
   <PropertyGroup>
-    <PackageId>FishbowlInventory.RestApi</PackageId>
-    <Title>FishbowlInventory.RestApi</Title>
+    <PackageId>FishbowlInventory.RestApiTT</PackageId>
+    <Title>FishbowlInventory.RestApiTT</Title>
     <Description>A C#/.net client library to interact with the Fishbowl Inventory REST API. The client does not fully implement all the API features (just yet) as it is following the needs of another project.</Description>
-    <Version>1.0.0</Version>
-    <Authors>Josh Kirkpatrick</Authors>
+    <Version>1.0.1</Version> <!-- ~~~~~ 1.0.0 -> 1.0.1 -->
+    <Authors>Josh Kirkpatrick with some edits by ThisandThat20</Authors><!-- ~~~~~ -->
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <RepositoryUrl>https://github.com/Kirkpajl/FishbowlInventory.RestApi</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Kirkpajl/FishbowlInventory.RestApi</PackageProjectUrl>
-    <PackageIcon>https://raw.githubusercontent.com/Kirkpajl/FishbowlInventory.RestApi/master/fishbowl-icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/ThisAndThat20/FishbowlInventory.RestApiTT</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ThisAndThat20/FishbowlInventory.RestApiTT</PackageProjectUrl>
     <PackageTags>Fishbowl, Inventory</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

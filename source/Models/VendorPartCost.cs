@@ -19,13 +19,13 @@ namespace FishbowlInventory.Models
         /// The part quantity associated with the cost.
         /// </summary>
         [JsonPropertyName("quantity")]
-        public double Quantity { get; set; }
+        public decimal Quantity { get; set; } //~~~~~ type double -> decimal
 
         /// <summary>
         /// The part quantity associated with the cost.
         /// </summary>
         [JsonPropertyName("minimumQuantity")]
-        public double MinimumQuantity { get; set; }
+        public decimal MinimumQuantity { get; set; } //~~~~~ type double -> decimal
 
         [JsonPropertyName("uom")]
         public UnitOfMeasure UnitOfMeasure { get; set; }

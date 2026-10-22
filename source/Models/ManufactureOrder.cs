@@ -67,9 +67,21 @@ namespace FishbowlInventory.Models
         /// <summary>
         /// Timestamp of when the order was last modified and the user that made the modifications.
         /// </summary>
-        [JsonPropertyName("lastModified")]  //'yyyy-MM-dd'
-        [JsonConverter(typeof(DateOnlyConverter))]
-        public DateTime? LastModified { get; set; }
+        //~~~~~ changed to class
+        [JsonPropertyName("lastModified")]
+        public UserModificationEvent LastModifiedEvent { get; set; }
+
+        [JsonIgnore]
+        public DateTime LastModified //~~~~~ added so anything that references will not change
+        //ideally it would be called DateLastModified, did not so reference will still work (Until time to change)
+        {
+            get { return LastModifiedEvent.DateLastModified; }
+            set
+            {
+                LastModifiedEvent ??= new UserModificationEvent(); //(copilot explination) LastModifiedEvent ??= new LastModified_internal(); means: if LastModifiedEvent is null, create a new LastModified_internal object. If it already has a value, leave it unchanged. Here it prevents the next line, LastModifiedEvent.DateLastModified = value;, from throwing a NullReferenceException. It’s a defensive check in case the property was set to null, such as when the JSON contains "lastModified": null.
+                LastModifiedEvent.DateLastModified = value;
+            }
+        }
 
         /// <summary>
         /// Timestamp of when the order was issued.
